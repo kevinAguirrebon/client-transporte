@@ -4,7 +4,7 @@ const dataLogin = localStorage.getItem('login')? JSON.parse(localStorage.getItem
 const token = dataLogin ? dataLogin.token : null;
 
 const config = {
-    baseURL: 'http://localhost/transporte/backend-php/',
+    baseURL: 'http://localhost/transporte/backend/',
     headers: { 
         'Content-Type': 'application/json',
         'token-access': 'Bearer ' + token

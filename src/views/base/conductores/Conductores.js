@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 const Modal = lazy(() => import(/* webpackChunkName: "Modal" */'../../components/Modal'));
 const RegisterConductores = lazy(() => import(/* webpackChunkName: "Register_Conductores" */'./RegisterConductor.js'));
-const Table = lazy(() => import(/* webpackChunkName: "tabla_Conductores" */'../../components/DataTable'));
+const Table = lazy(() => import(/* webpackChunkName: "tabla_Conductores" */'../camiones/TableCamiones'));
 
 const loading = (
     <div className="text-center">
@@ -111,20 +111,19 @@ const Conductores = () => {
 
     return (
         <>
-        <Suspense fallback={loading}>
-            <button type="button" className="btn btn-secondary my-3" data-toggle="modal" data-target="#modal-default" onClick={() => setSaveOrUpdate(1) }>
-                <i className="fas fa-plus"></i> Crear conductor
-            </button>
-            <Modal id="modal-default" close="modal_conductores_close" titulo={saveOrUpdate === 1? 'Registrar Conductor': 'Actualizar Conductor'} body={<RegisterConductores saveOrUpdate={saveOrUpdate} operation={saveOrUpdate === 1? buttonSave : buttonUpdate}/>} />
-        </Suspense>
         <div className="card border-0">
-            <div className="card-header" style={{background: '#fff'}}>
+            <div className="card-header">
                 <div className="input-group row mt-2">
-                    <h5 className="col-sm-7">Total de Conductores Registrados</h5>
-                    <input type="search"  className="form-control form-control-border" value={search} onChange={setSearchInput} placeholder="Buscar..." />
+                <h5 className="col-sm-5">Total de Conductores Registrados</h5>
                     <div className="input-group-append">
                         <button className="btn nav-link disabled" ><i className="fa fa-search"/></button>
                     </div>
+                    <input type="search"  className="form-control form-control-border col-sm-6" value={search} onChange={setSearchInput} placeholder="Buscar..." />
+                    <Suspense fallback={loading}>
+                        <button type="button" className="btn col-sm-2" data-toggle="modal" data-target="#modal-default" onClick={() => setSaveOrUpdate(1) }>
+                            <i className="fas fa-plus"></i> Crear conductor
+                        </button>
+                    </Suspense>
                 </div>
             </div>
             <div className="card-body table-responsive">
@@ -132,6 +131,7 @@ const Conductores = () => {
                 <Table  data={search.length > 0 ? conductores : dataConductores} columns={dataColumns} eliminar={btnEliminar}></Table >
             </Suspense>
             </div>
+            <Modal id="modal-default" close="modal_conductores_close" titulo={saveOrUpdate === 1? 'Registrar Conductor': 'Actualizar Conductor'} body={<RegisterConductores saveOrUpdate={saveOrUpdate} operation={saveOrUpdate === 1? buttonSave : buttonUpdate}/>} />
         </div>
         </>
     )
