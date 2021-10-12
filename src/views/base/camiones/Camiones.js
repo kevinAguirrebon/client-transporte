@@ -44,6 +44,26 @@ const Camiones = () => {
         })
         setCamiones(filtered);
     }
+    const btnActualizar = (placa) => {
+        setSaveOrUpdate(2);
+        dispatch(getCamion(placa))
+    }
+
+    const btnEliminar = (id) => {
+        Swal.fire({
+            title: '¿Quieres eliminar este camión?',
+            text: '',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si!'
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+                dispatch(deleteCamion(id));
+            }
+        });
+	};
 
     useEffect(()=>{
         dispatch(getCamiones());
@@ -75,30 +95,26 @@ const Camiones = () => {
 
     return (
         <>
-        <div className="input-group row mt-2">
-            <div className="col-sm-5">
-                <h5>Total de Camiones Registrados</h5>
-            </div>
-            <input type="search"  className="form-control form-control-border col-sm-6 mx-2" value={search} onChange={setSearchInput} placeholder="Buscar..." />
+        <h4 className="mb-3">Total de Camiones Registrados</h4>
+        <div className="input-group jumbotron px-0  py-0 mb-0 pt-2">
+            <div className="col-sm-6">
+                <Suspense fallback={loading}>
+                    <button type="button" className="btn btn-secondary" data-toggle="modal" data-target="#modal-default" onClick={() => setSaveOrUpdate(1) }>
+                        <i className="fas fa-plus"></i> Crear camión
+                    </button>
+                </Suspense>
+                </div>
+            <input type="search"  className="form-control col-sm-6" value={search} onChange={setSearchInput} placeholder="Buscar..." />
             <div className="input-group-append">
                 <button className="btn nav-link disabled" ><i className="fa fa-search"/></button>
             </div>
-            <div>
-            <Suspense fallback={loading}>
-
-                <button type="button" className="btn btn-secondary" data-toggle="modal" data-target="#modal-default" onClick={() => setSaveOrUpdate(1) }>
-                    <i className="fas fa-plus"></i> Crear camión
-                </button>
-         
-            </Suspense>
-            </div>
         </div>
-        <Suspense fallback={loading}>
-            <Table  data={search.length > 0 ? camiones : dataCamiones}></Table >
-        </Suspense>
-        <Modal id="modal-default" close="modal_camiones_close" titulo={saveOrUpdate === 1? 'Registrar Camión': 'Actualizar Camión'} body={<RegisterCamion saveOrUpdate={saveOrUpdate} operation={saveOrUpdate === 1? buttonSave : buttonUpdate}/>} />
+            <Suspense fallback={loading}>
+                <Table  data={search.length > 0 ? camiones : dataCamiones} ftn_eliminar={btnEliminar} ftn_actualizar={btnActualizar}/>
+            </Suspense>
+            <Modal id="modal-default" close="modal_camiones_close" titulo={saveOrUpdate === 1? 'Registrar Camión': 'Actualizar Camión'} body={<RegisterCamion saveOrUpdate={saveOrUpdate} operation={saveOrUpdate === 1? buttonSave : buttonUpdate}/>} />
         </>
-    )
-}
+        )
+}   
 
 export default Camiones;
