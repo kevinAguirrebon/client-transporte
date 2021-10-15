@@ -2,3 +2,51 @@
     background-color: #3f6791;
     color: #fff;
 }
+
+.bodycard{
+    display: 300px;
+}
+.bodycard>ul{
+    list-style: none;
+    margin-left: 4px;
+    padding: 2px;
+}
+
+.bodycard>ul >li h6{
+    display: flex;
+    margin: 0px;
+    padding: 0px;
+}
+
+.bodycard>ul >li h6 >p{
+    color: rgb(83, 83, 83);
+    padding-left: 3px;
+}
+
+.bodycard ul> li >ul{
+    border-top: 1px solid #D5D5D5;
+    padding-left: 0px;
+    list-style: none;
+}
+
+.bodycard ul> li >ul >li{
+    margin-left: 20px;
+    list-style: circle;
+}
+
+.headercard{
+    display: flex;
+}
+
+.headercard h3{
+    font-size: 20px;
+    width: 200px;
+    text-align: center;
+    padding: 0px 2px;
+
+}
+
+.cardMain{
+    border: 1px solid #CCCCCC;
+    padding-bottom: 0px;
+}

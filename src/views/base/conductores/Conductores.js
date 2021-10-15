@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 const Modal = lazy(() => import(/* webpackChunkName: "Modal" */'../../components/Modal'));
 const RegisterConductores = lazy(() => import(/* webpackChunkName: "Register_Conductores" */'./RegisterConductor.js'));
-const Table = lazy(() => import(/* webpackChunkName: "tabla_Conductores" */'../camiones/TableCamiones'));
+const Table = lazy(() => import(/* webpackChunkName: "tabla_Conductores" */'./TableConductor'));
 
 const loading = (
     <div className="text-center">
@@ -27,29 +27,6 @@ const Conductores = () => {
     const buttonSave = {id: 1, button: 'Guardar Conductor'};
     const buttonUpdate = {id: 2, button: 'Actualizar Conductor'};
 
-    const dataColumns = [
-        { name: 'DOCUMENTO', selector: row => row.id, sortable: true, width: '20%',},
-        { name: 'NOMBRE', selector:  row => row.nombre, sortable: true, width: '30%',},
-        { name: 'FECHA_REGISTRO', selector:  row => row.fecha, sortable: true, width: '15%',},
-        { name: 'ESTADO',selector:  row => row.estado_id, sortable: true, width: '20%', center: true,},
-        { cell: (row) => <> <div className="container">
-                                <button className="btn btn-info" data-toggle="modal" data-target="#modal-default" onClick={()=> {
-                                        setSaveOrUpdate(2);
-                                        dispatch(getConductor(row.id))}
-                                    }><i className="far fa-edit"></i></button>  
-                            </div>
-                            <div className="container">
-                                <button className="btn btn-danger" onClick={()=>btnEliminar(row.id)}><i className="far fa-trash-alt"></i></button>
-                            </div>
-                        </>,
-        ignoreRowClick: true,
-        allowOverflow: true,
-        button: true,
-        center: true,
-        width: '10',
-        name: 'OPCIONES'},
-    ];
-    
     const setSearchInput = ({target}) => {
         setSearch(target.value);
         dataFiltered();
@@ -69,6 +46,11 @@ const Conductores = () => {
             }
         });
 	};
+
+    const btnActualizar = (id) => {
+        setSaveOrUpdate(2);
+        dispatch(getConductor(id))
+    }
 
     const dataFiltered = () => {
         const filtered = dataConductores.filter(item => {
@@ -111,28 +93,24 @@ const Conductores = () => {
 
     return (
         <>
-        <div className="card border-0">
-            <div className="card-header">
-                <div className="input-group row mt-2">
-                <h5 className="col-sm-5">Total de Conductores Registrados</h5>
-                    <div className="input-group-append">
-                        <button className="btn nav-link disabled" ><i className="fa fa-search"/></button>
-                    </div>
-                    <input type="search"  className="form-control form-control-border col-sm-6" value={search} onChange={setSearchInput} placeholder="Buscar..." />
-                    <Suspense fallback={loading}>
-                        <button type="button" className="btn col-sm-2" data-toggle="modal" data-target="#modal-default" onClick={() => setSaveOrUpdate(1) }>
-                            <i className="fas fa-plus"></i> Crear conductor
-                        </button>
-                    </Suspense>
+        <h4 className="mb-3">Total de Conductores Registrados</h4>
+        <div className="input-group jumbotron px-0  py-0 mb-0 pt-2">
+            <div className="col-sm-6">
+                <Suspense fallback={loading}>
+                    <button type="button" className="btn btn-secondary" data-toggle="modal" data-target="#modal-default" onClick={() => setSaveOrUpdate(1) }>
+                        <i className="fas fa-plus"></i> Crear conductor
+                    </button>
+                </Suspense>
                 </div>
+            <input type="search"  className="form-control col-sm-6" value={search} onChange={setSearchInput} placeholder="Buscar..." />
+            <div className="input-group-append">
+                <button className="btn nav-link disabled" ><i className="fa fa-search"/></button>
             </div>
-            <div className="card-body table-responsive">
-            <Suspense fallback={loading}>
-                <Table  data={search.length > 0 ? conductores : dataConductores} columns={dataColumns} eliminar={btnEliminar}></Table >
-            </Suspense>
-            </div>
-            <Modal id="modal-default" close="modal_conductores_close" titulo={saveOrUpdate === 1? 'Registrar Conductor': 'Actualizar Conductor'} body={<RegisterConductores saveOrUpdate={saveOrUpdate} operation={saveOrUpdate === 1? buttonSave : buttonUpdate}/>} />
         </div>
+            <Suspense fallback={loading}>
+                <Table  data={search.length > 0 ? conductores : dataConductores} ftn_eliminar={btnEliminar} ftn_actualizar={btnActualizar}/>
+            </Suspense>
+            <Modal id="modal-default" close="modal_conductores_close" titulo={saveOrUpdate === 1? 'Registrar Camión': 'Actualizar Camión'} body={<RegisterConductores saveOrUpdate={saveOrUpdate} operation={saveOrUpdate === 1? buttonSave : buttonUpdate}/>} />
         </>
     )
 }

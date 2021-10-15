@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-const Table  = ({data,ftn_eliminar,ftn_actualizar}) => {
+const TableConductor = ({data,ftn_eliminar,ftn_actualizar}) => {
     const [pagination, setPagination] = useState({
         perPage: 10,
         index: null,
@@ -9,6 +9,7 @@ const Table  = ({data,ftn_eliminar,ftn_actualizar}) => {
         limit: null,
         component_item: []
     });
+    console.log(data)
     const changePage = (index) =>{
         let indexFin = (index * pagination.perPage);
         let indexInit = indexFin - pagination.perPage;
@@ -56,28 +57,28 @@ const Table  = ({data,ftn_eliminar,ftn_actualizar}) => {
         <>
         <table className="table table-striped table-sm table-bordered mb-0">
             <thead>
-                <tr style={{background: '#2E86C1'}} >
-                    <th className="text-center" style={{color: '#FFF'}}>Placa</th>
-                    <th className="text-center" style={{color: '#FFF'}}>Tipo_camion</th>
-                    <th className="text-center" style={{color: '#FFF'}}>Capacidad</th>
-                    <th className="text-center" style={{color: '#FFF'}}>Fecha</th>
+                <tr style={{background: '#6EBE5E'}} >
+                    <th style={{color: '#FFF'}}>Documento</th>
+                    <th style={{color: '#FFF'}}>Nombre Completo</th>
+                    <th className="text-center" style={{color: '#FFF'}}>Fecha_Registro</th>
+                    <th className="text-center" style={{color: '#FFF'}}>Estado</th>
                     <th className="text-center" style={{color: '#FFF'}}>Opciones</th>
                 </tr>
             </thead>
             <tbody>
                 { 
-                pagination.data.length > 0 ? pagination.data.map(({placa,tipo_camion,capacidad,fecha_registro})=>{
+                pagination.data.length > 0 ? pagination.data.map(({id,nombre,fecha,estado_id})=>{
                     return (
-                        <tr key={placa}>
-                        <td className="text-center">{placa}</td>
-                        <td className="text-center">{tipo_camion}</td>
-                        <td className="text-center">{capacidad}</td>
-                        <td className="text-center">{fecha_registro}</td>
+                        <tr key={id}>
+                        <td>{id}</td>
+                        <td>{nombre}</td>
+                        <td className="text-center">{fecha}</td>
+                        <td className="text-center">{estado_id}</td>
                         <td className="text-center">
                             <div className="container">
-                                <button className="btn btn-info mx-2" data-toggle="modal" data-target="#modal-default" onClick={()=> ftn_actualizar(placa)}>
+                                <button className="btn btn-info mx-2" data-toggle="modal" data-target="#modal-default" onClick={()=> ftn_actualizar(id)}>
                                     <i className="far fa-edit"></i></button> 
-                                <button className="btn btn-danger" onClick={()=>ftn_eliminar(placa)}><i className="far fa-trash-alt"></i></button>
+                                <button className="btn btn-danger" onClick={()=>ftn_eliminar(id)}><i className="far fa-trash-alt"></i></button>
                             </div>
                         </td>
                         </tr>
@@ -109,4 +110,4 @@ const Table  = ({data,ftn_eliminar,ftn_actualizar}) => {
     );
 }
 
-export default Table;
+export default TableConductor;
