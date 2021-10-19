@@ -17,10 +17,10 @@ const TablaTransporte = ({data,fecha,handleChange}) => {
                 <tr style={{background: '#2E86C1'}} >
                     <th className="text-center" style={{color: '#FFF'}}>Código</th>
                     <th className="text-center" style={{color: '#FFF'}}>Finca</th>
-                    <th className="text-center" style={{color: '#FFF'}}>Alineacion</th>
-                    <th className="text-center" style={{color: '#FFF'}}>Avance</th>
-                    <th className="text-center" style={{color: '#FFF'}}>Recogidas</th>
-                    <th className="text-center" style={{color: '#FFF'}}>Restantes</th>
+                    <th className="text-center" style={{color: '#FFF'}}>Pallets Alineados</th>
+                    <th className="text-center" style={{color: '#FFF'}}>Pallets Reales</th>
+                    <th className="text-center" style={{color: '#FFF'}}>Pallets Recogidos</th>
+                    <th className="text-center" style={{color: '#FFF'}}>Pallets Restantes</th>
                 </tr>
             </thead>
             <tbody>

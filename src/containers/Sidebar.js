@@ -7,7 +7,9 @@ import { useSelector } from 'react-redux';
 const Itemlist = [
   { name:"Transporte", icon:"fas fa-people-carry", links: 
     [ {link:"/transporte",name:"Pomas-transporte"},
-      {link:"/rutas",name:"Rutas"},]
+      {link:"/crear-viajes",name:"Crear-Viajes"},
+      {link:"/rutas",name:"Rutas"},
+     ]
   }
 ]
 const Item = [
