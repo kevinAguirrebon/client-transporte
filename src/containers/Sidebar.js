@@ -5,11 +5,12 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const Itemlist = [
-  { name:"Transporte", icon:"fas fa-people-carry", links: 
-    [ {link:"/transporte",name:"Pomas-transporte"},
-      {link:"/crear-viajes",name:"Crear-Viajes"},
+  { name:"Transporte", icon:"fas fa-people-carry", 
+    links: [  
+      {link:"/transporte",name:"Pomas-transporte"},
+      {link:"/lista-viajes",name:"Lista de viajes"},
       {link:"/rutas",name:"Rutas"},
-     ]
+      ]
   }
 ]
 const Item = [
@@ -18,7 +19,7 @@ const Item = [
 ]
 
 const Sidebar = () =>{
-    const username = useSelector(store => store.login.username)
+  const username = useSelector(store => store.login.username)
     return (
       <aside className="main-sidebar sidebar-dark-primary elevation-4">
   {/* Brand Logo */}

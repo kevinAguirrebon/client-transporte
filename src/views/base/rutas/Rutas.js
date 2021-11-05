@@ -1,182 +1,75 @@
-import React, { useState } from 'react';
-import getFecha from '../../../helpers/fecha'
-import data from './Lista';
+import React from 'react';
+
 const Rutas = () => {
-    const [horas, setHoras] = useState([]);
-    const [placa, setPlaca] = useState([]);
-    const [newData, setNewData] = useState([]);
-    const [fecha,setFecha] = useState();
-
-    const getData = (fecha) => {
-        setFecha(fecha.value);
-        getPlacas();
-        getHoras();
-    }
-    const getPlacas = () => {
-        const placa_viaje = [];
-        data.forEach(({placa}) => {
-            const placaUpercase = placa.toUpperCase();
-            if(!placa_viaje.includes(placaUpercase)){
-                placa_viaje.push(placaUpercase)
-            }
-        });
-        placa_viaje.sort();
-        setPlaca(placa_viaje)
-    }
-
-    const getHoras =() => {
-        const horas_viaje = [];
-        data.forEach(({hora})=>{
-            if(!horas_viaje.includes(hora)){
-                horas_viaje.push(hora)
-            }
-        })
-        horas_viaje.sort();
-        setHoras(horas_viaje);
-    }
- 
-    const changePlaca = (target) => {
-        let placa = target.value;
-        const filterForHora =  removeItemRepeatHora(horas,placa);
-        const filterForOrden =  removeItemRepeatOrden(filterForHora);
-        const finalOperation =  removeItemRepeatHoraReducer(horas,filterForOrden,placa);
-        setNewData(finalOperation)
-    }
-
-    const removeItemRepeatHora = (dataHoras,placaActual) => {
-        const filterForHora = [];
-        dataHoras.forEach(element => {
-            const ItemsTabla = data.filter(({hora,placa})=>{
-                if(placaActual === placa && element === hora) {
-                    return true;
-                }
-                return false;
-            })
-            if(ItemsTabla.length > 0){
-                const buque = [];
-                for (let i = 0; i < ItemsTabla.length; i++) {
-                    buque.push(ItemsTabla[i].buque)
-                }
-                filterForHora.push({...ItemsTabla[0],buque});
-            }
-        })
-        return filterForHora;
-    }
-
-    const removeItemRepeatHoraReducer = (dataHoras,dataReducer,placaActual) => {
-        const filterForHora = [];
-        dataHoras.forEach(element => {
-            const ItemsTabla = dataReducer.filter(({hora,placa})=>{
-                if(placaActual === placa && element === hora) {
-                    return true;
-                }
-                return false;
-            })
-            if(ItemsTabla.length > 0){
-                const buque = [];
-                for (let i = 0; i < ItemsTabla.length; i++) {
-                    buque.push(ItemsTabla[i].buque)
-                }
-                filterForHora.push({...ItemsTabla[0],buque: buque[0]});
-            }
-        })
-        return filterForHora;
-    }
-
-    const removeItemRepeatOrden  = (datosOrden) => {
-        const filterForOrden = [];
-        datosOrden.forEach(element => {
-            const ItemsTabla = datosOrden.filter(({finca,orden})=>{
-                if(finca === element.finca && orden === element.orden) {
-                    return true;
-                }
-                return false;
-            })
-            if(ItemsTabla.length > 0){
-                const buque = [];
-                for (let i = 0; i < ItemsTabla.length; i++) {
-                    buque.push(...ItemsTabla[i].buque)
-                }
-                filterForOrden.push({...ItemsTabla[ItemsTabla.length - 1],buque});
-            }
-        })
-        return filterForOrden;
-    }
-
     return (
-        <>
-        <div className="jumbotron px-0  py-1 mb-0 d-block"  style={{color: '#000'}}>
-            <h5 className="text-center">Ruta de Camiones <p style={{fontSize: '15px', color: '#000'}}> { getFecha(fecha) }</p></h5>
+        <div>
+            <div className="jumbotron px-0  py-1 mb-0 d-block"  style={{color: '#000'}}>
+                <h5 className="text-center mb-0">Rutas<p className="mb-1" style={{fontSize: '15px', color: '#000'}}> 2021 - 11 - 03 </p></h5>
+            </div>
+            <div className="my-2 d-flex">
+                <div className="form-group d-flex my-0">
+                    <label style={{padding: '4px'}}>Fecha: </label>
+                    <input type="date" name="fecha_pomas" className="form-control"></input>
+                </div>
+                <div className="form-group d-flex my-0">
+                <label style={{padding: '4px'}}>Ruta: </label>
+                    <select name="placas" className="form-control mx-3" style={{width: '200px'}} >  
+                        <option value="">Ruta 1</option>
+                        <option value="">Ruta 2</option>
+                        <option value="">Ruta 3</option>
+                    </select>
+                </div>
+            </div>
+            <div className="my-2">
+                <button className="btn btn-secondary">Crear ruta</button>
+            </div>
+            <table className="table table-sm table-bordered">
+                <thead>
+                    <tr style={{background: '#2E86C1'}}>
+                        <th style={{color: '#FFF'}}>Id</th>
+                        <th style={{color: '#FFF'}}>Fecha</th>
+                        <th style={{color: '#FFF'}}>Camión</th>
+                        <th style={{color: '#FFF'}}>Conductor</th>
+                        <th className="text-center" style={{color: '#FFF'}}>Pallets Alineación</th>
+                        <th className="text-center" style={{color: '#FFF'}}>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>2021-11-05</td>
+                        <td>T45DSF</td>
+                        <td>Kevin Andres Aguirre Bonilla</td>
+                        <td className="td_alineacion">
+                            <table className="table">
+                                <thead>
+                                    <tr style={{background: '#6EBE5E'}}>
+                                        <th style={{color: '#FFF'}}>Fincas</th>
+                                        <th style={{color: '#FFF'}}>Disponibles</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>ACACIAS</td>
+                                        <td>12</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PETRA</td>
+                                    <td>12</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <button className="btn btn-primary">Editar</button>
+                            <button className="btn btn-danger">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div className="my-2 d-flex">
-                    <div className="form-group d-flex my-0">
-                        <label style={{padding: '4px'}}>Fecha: </label>
-                        <input type="date" name="fecha_pomas" className="form-control" onChange={({target}) => { getData(target);
-                            }}></input>
-                    </div>
-                    <div className="form-group d-flex my-0">
-                    <label style={{padding: '4px'}}>Placa: </label>
-                        <select name="placas" className="form-control mx-3" style={{width: '200px'}} onChange={({target}) =>changePlaca(target)}>
-                        {
-                            (data.length > 0 && fecha) ? placa.map((item,index) => <option key={index} value={item} >{item}</option>) : <option value='null' >No hay información</option>
-                            
-                        }   
-                        </select>
-                    </div>
-        </div>
-        <div className="table-responsive">
-        <table className="table table-bordered">
-            <tbody>
-            <tr>
-                <td>
-                    <div className="d-flex"> { newData.length > 0 && newData.map((item,index) => (
-                                <div className="cardMain" key={index}>
-                                         <div className="headercard" style={{background: item.ultimo === 'NO'? '#3F6791': '#D2A957'}}>
-                                            <h3 style={{color: '#FFF' }}>{ item.finca }</h3>
-                                        </div>
+    );
 
-                                        <div className="bodycard">
-                                        <ul>
-                                            <li>
-                                                <h6>Conductor: <p>{ item.conductor }</p> </h6>
-                                            </li>
-                                            <li>
-                                                <h6>Hora: <p style={{color: '#EE6D6D' }}>{ item.hora }</p> </h6>   
-                                            </li>
-                                            <li>
-                                                <h6>Ultimo: <p>{ item.ultimo }</p> </h6>  
-                                            </li>
-                                            <li>
-                                                <h6>Orden: <p>{ item.orden }</p> </h6>  
-                                            </li>
-                                            <li>
-                                                <ul>
-                                                    Buques:
-                                                    { 
-                                                    item.buque.map((item,index) => (
-                                                        <li key={index}>{item}</li>
-                                                   )) 
-                                                }
-                                                </ul>
-                                            </li>
-                                            
-                                        </ul>  
-                                        </div>
-                                    </div>
-                               
-                                ))
-                                    
-                            }
-                    </div>
-                 </td>
-                            </tr>
-               
-            </tbody>
-        </table>
-        </div>
-        
-        </>
-    )
 }
 
 export default Rutas;

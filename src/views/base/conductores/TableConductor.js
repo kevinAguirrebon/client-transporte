@@ -66,10 +66,9 @@ const TableConductor = ({data,ftn_eliminar,ftn_actualizar}) => {
                 </tr>
             </thead>
             <tbody>
-                { 
-                pagination.data.length > 0 ? pagination.data.map(({id,nombre,fecha,estado_id})=>{
+                { pagination.data.length > 0 ? pagination.data.map(({id,nombre,fecha,estado_id})=>{
                     return (
-                        <tr key={id}>
+                    <tr key={id}>
                         <td>{id}</td>
                         <td>{nombre}</td>
                         <td className="text-center">{fecha}</td>
@@ -81,7 +80,7 @@ const TableConductor = ({data,ftn_eliminar,ftn_actualizar}) => {
                                 <button className="btn btn-danger" onClick={()=>ftn_eliminar(id)}><i className="far fa-trash-alt"></i></button>
                             </div>
                         </td>
-                        </tr>
+                    </tr>
                     )
                 }):
                <tr>

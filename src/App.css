@@ -50,3 +50,33 @@
     border: 1px solid #CCCCCC;
     padding-bottom: 0px;
 }
+
+
+.restante_active{
+    background: rgba(219, 73, 73, 0.678);
+    color: #FFF;
+}
+
+
+.alineacion_active{
+    background: rgba(216, 191, 80, 0.842);
+    color: rgb(0, 0, 0);
+}
+
+
+.recogidas_active{
+    background: rgba(78, 120, 212, 0.842);
+    color: rgb(0, 0, 0);
+}
+.default_color{
+    background: #FFF;
+    color: #000;
+}
+
+
+.td_alineacion{
+    padding: 0px !important;
+}
+.td_alineacion>table{
+    margin: 0px;
+}
