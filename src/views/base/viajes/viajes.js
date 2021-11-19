@@ -74,7 +74,6 @@ const Viajes = () => {
     },[horas]) // eslint-disable-line react-hooks/exhaustive-deps
 
     const changePlaca = (placa) => {
-        console.log('asdasd');
         const filterForHora =  removeItemRepeatHora(horas,placa);
         const filterForOrden =  removeItemRepeatOrden(filterForHora);
         const finalOperation =  removeItemRepeatHoraReducer(horas,filterForOrden,placa);
@@ -162,7 +161,7 @@ const Viajes = () => {
                 }   
                 </select>
             </div>
-            <button className="btn btn-success" onClick={() => reload_Viajes()}><i className="fas fa-redo"></i></button>
+            <button className="btn btn-secondary" onClick={() => reload_Viajes()}><i className="fas fa-redo"></i></button>
             {
                 loading && <div className="text-center">
                     <div className="spinner-border" role="status">
@@ -172,53 +171,51 @@ const Viajes = () => {
             }
         </div>
         <div className="table-responsive">
-        <table className="table table-bordered">
-            <tbody>
-            <tr>
-                <td>
-                    <div className="d-flex"> { (newData.length > 0) ? newData.map((item,index) => (
-                        <div className="cardMain" key={index}>
-                            <div className="headercard" style={{background: item.ultimo === 'NO'? '#3F6791': '#D2A957'}}>
-                            <h3 style={{color: '#FFF' }}>{ item.finca }</h3>
-                        </div>
-                        <div className="bodycard">
-                            <ul>
-                                <li>
-                                    <h6>Conductor: <p>{ item.conductor }</p> </h6>
-                                </li>
-                                <li>
-                                    <h6>Hora: <p style={{color: '#EE6D6D' }}>{ item.hora }</p> </h6>   
-                                </li>
-                                <li>
-                                    <h6>Ultimo: <p>{ item.ultimo }</p> </h6>  
-                                </li>
-                                <li>
-                                    <h6>Orden: <p>{ item.orden }</p> </h6>  
-                                </li>
-                                <li>
-                                    <h6>Embarcadero: <p>{ item.embarcadero }</p> </h6>  
-                                </li>
-                                <li>
-                                    <ul>
-                                        Buques:
-                                        { 
-                                        item.buque.map((item,index) => (
-                                            <li key={index}>{item}</li>
-                                        )) 
-                                    }
-                                    </ul>
-                                </li>
-                            </ul>  
-                        </div>
-                    </div>
-                    ))
-                    : <h3>No se encontro información en esta fecha</h3>                 
-                    }
-                    </div>
-                 </td>
-                </tr>
-            </tbody>
-        </table>
+            <table className="table table-sm table-bordered">
+                <thead>
+                    <tr style={{background: '#229954'}}>
+                        <th className="text-center" style={{color: '#FFF'}}>#</th>
+                        <th className="text-center" style={{color: '#FFF'}}>Hora</th>
+                        <th className="text-center" style={{color: '#FFF'}}>Finca</th>
+                        <th className="text-center" style={{color: '#FFF'}}>Conductor</th>
+                        <th className="text-center" style={{color: '#FFF'}}>Ultimo</th>
+                        <th className="text-center" style={{color: '#FFF'}}>Orden</th>
+                        <th className="text-center" style={{color: '#FFF'}}>Embarcadero</th>
+                        <th className="text-center" style={{color: '#FFF'}}>Buques</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    { (newData.length > 0) ? newData.map((item,index) => (
+                        <tr>
+                            <td>{index + 1}</td>
+                         <td><h6><p style={{color: '#EE6D6D' }}>{ item.hora }</p> </h6></td>
+                        <td className="text-center">{ item.finca }</td>
+                        <td>{ item.conductor }</td>
+                        <td className="text-center">{ item.ultimo }</td>
+                        <td className="text-center">{ item.orden }</td>
+                        <td className="text-center">{ item.embarcadero }</td>
+                        <td>
+                             { 
+                                            item.buque.map((item,index) => (
+                                                <li key={index}>{item}</li>
+                                            )) 
+                                        }
+                        </td>
+                            
+                        </tr>
+                        ))
+                        :   <tr>
+                            <td colSpan="8" className="text-center">
+                                <h3 >No se encontro información en esta fecha</h3> 
+                            </td>
+                        </tr> 
+                                        
+                        }
+                        
+                    
+                   
+                </tbody>
+            </table>
         </div>
         </>
     )

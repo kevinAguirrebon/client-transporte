@@ -2,16 +2,15 @@ import React from 'react';
 import formato_fecha from '../../../helpers/fecha'
 
 const TablaTransporte = ({data,fecha,handleChange}) => {
-
     return (
         <table className="table table-sm table-bordered">
             <thead>
-                <tr style={{background: '#6EBE5E'}}>
+                <tr style={{background: '#239B56'}}>
                     <th colSpan="2" className="text-center" style={{width: '32%'}}>
                         FECHA DE EMBARQUES ===={'>'}
                     </th>
                     <th className="px-0 py-0" style={{width: '16%'}}>
-                        <input type="date" className="rounded-0 form-control" name="fecha" style={{paddingTop: '5px'}} onChange={({target})=>handleChange(target.value)}/>
+                        <input type="date" className="rounded-0 form-control" name="fecha" value={fecha} style={{paddingTop: '5px'}} onChange={({target})=>handleChange(target.value)}/>
                     </th>
                     <th colSpan="3" className="text-center" style={{width: '48%'}}>{formato_fecha(fecha)}</th>
                 </tr>

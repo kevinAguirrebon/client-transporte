@@ -1,21 +1,27 @@
 import React from 'react';
-import NavItemList from '../views/components/NavItemlist';
 import NavItem from '../views/components/NavItem';
+import NavItemList from '../views/components/NavItemlist';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const Itemlist = [
-  { name:"Transporte", icon:"fas fa-people-carry", 
+  { name:"Control de viajes", icon:"fas fa-bus", 
     links: [  
-      {link:"/transporte",name:"Pomas-transporte"},
-      {link:"/lista-viajes",name:"Lista de viajes"},
-      {link:"/rutas",name:"Rutas"},
+      {link:"/rutas",name:"Crear viajes"},
+      {link:"/control-rutas",name:"Control rutas"},
+      ]
+  },
+  { name:"Gestión", icon:"fas fa-users-cog", 
+    links: [  
+      {name:"Camiones", link:"/camiones"},
+      {name:"Conductores", link:"/conductores"},
       ]
   }
 ]
+
 const Item = [
-  {name:"Camiones", icon:"fas fa-truck", link:"/camiones"},
-  {name:"Conductores", icon:"fas fa-address-card", link:"/conductores"},
+  {name:"Alineación", icon:"fas fa-map", link:"/transporte"},
+  {name:"Lista de viajes App", icon:"fas fa-road", link:"/lista-viajes"},
 ]
 
 const Sidebar = () =>{
@@ -42,15 +48,16 @@ const Sidebar = () =>{
       <ul className="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false">
       <li className="nav-header">SERVICIOS</li>
         {
-          Itemlist && Itemlist.map(({name, icon, links},index)=>(
-            <NavItemList key={index} name={name} icon={icon}  links={links}/>
-          ))
-        }
-        {
           Item && Item.map(({name, icon, link},index)=>(
             <NavItem  key={index} name={name} icon={icon} link={link}/>
           ))
         }
+        {
+          Itemlist && Itemlist.map(({name, icon, links},index)=>(
+            <NavItemList key={index} name={name} icon={icon}  links={links}/>
+          ))
+        }
+       
 
       </ul>
     </nav>

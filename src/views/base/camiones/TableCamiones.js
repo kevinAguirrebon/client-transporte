@@ -46,7 +46,6 @@ const Table  = ({data,ftn_eliminar,ftn_actualizar}) => {
                     limit_data.push({name: '...', value: i })
                 }
             }
-            console.log()
             setPagination({perPage: perPage,index: indexInit, data: filtered, total_camiones: data.length, page: index, limit: limit, component_item: limit_data});
         }
         initTable(1)
@@ -56,7 +55,7 @@ const Table  = ({data,ftn_eliminar,ftn_actualizar}) => {
         <>
         <table className="table table-striped table-sm table-bordered mb-0">
             <thead>
-                <tr style={{background: '#2E86C1'}} >
+                <tr style={{background: '#229954'}} >
                     <th className="text-center" style={{color: '#FFF'}}>Placa</th>
                     <th className="text-center" style={{color: '#FFF'}}>Tipo_camion</th>
                     <th className="text-center" style={{color: '#FFF'}}>Capacidad</th>
@@ -65,7 +64,7 @@ const Table  = ({data,ftn_eliminar,ftn_actualizar}) => {
                 </tr>
             </thead>
             <tbody>
-                { 
+                {  
                 pagination.data.length > 0 ? pagination.data.map(({placa,tipo_camion,capacidad,fecha_registro})=>{
                     return (
                         <tr key={placa}>

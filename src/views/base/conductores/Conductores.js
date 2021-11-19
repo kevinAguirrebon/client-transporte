@@ -2,18 +2,11 @@ import React, {lazy , Suspense, useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getConductores,deleteConductor,getConductor } from '../../../redux/reducerConductores/conductores';
 import Swal from 'sweetalert2';
+import loading from '../../components/Load';
 
 const Modal = lazy(() => import(/* webpackChunkName: "Modal" */'../../components/Modal'));
 const RegisterConductores = lazy(() => import(/* webpackChunkName: "Register_Conductores" */'./RegisterConductor.js'));
 const Table = lazy(() => import(/* webpackChunkName: "tabla_Conductores" */'./TableConductor'));
-
-const loading = (
-    <div className="text-center">
-        <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
-        </div>
-    </div>
-    )
 
 const Conductores = () => {
     const [saveOrUpdate, setSaveOrUpdate] = useState(1);
@@ -29,7 +22,7 @@ const Conductores = () => {
 
     const setSearchInput = ({target}) => {
         setSearch(target.value);
-        dataFiltered();
+        dataFiltered(target.value);
     }
     const btnEliminar = (id) => {
         Swal.fire({
@@ -52,10 +45,10 @@ const Conductores = () => {
         dispatch(getConductor(id))
     }
 
-    const dataFiltered = () => {
+    const dataFiltered = (value) => {
         const filtered = dataConductores.filter(item => {
-            if(item.id.toString().toLowerCase().includes(search.toLowerCase())||
-                item.nombre.toString().toLowerCase().includes(search.toLowerCase())
+            if(item.id.toString().toLowerCase().includes(value.toLowerCase())||
+                item.nombre.toString().toLowerCase().includes(value.toLowerCase())
             ){
                 return item;
             }else return false;
@@ -102,7 +95,7 @@ const Conductores = () => {
                     </button>
                 </Suspense>
                 </div>
-            <input type="search"  className="form-control col-sm-6" value={search} onChange={setSearchInput} placeholder="Buscar..." />
+            <input type="search"  className="form-control col-sm-6" onPaste={setSearchInput} value={search} onChange={setSearchInput} placeholder="Buscar..." />
             <div className="input-group-append">
                 <button className="btn nav-link disabled" ><i className="fa fa-search"/></button>
             </div>

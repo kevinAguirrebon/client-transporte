@@ -9,7 +9,6 @@ const TableConductor = ({data,ftn_eliminar,ftn_actualizar}) => {
         limit: null,
         component_item: []
     });
-    console.log(data)
     const changePage = (index) =>{
         let indexFin = (index * pagination.perPage);
         let indexInit = indexFin - pagination.perPage;
@@ -47,7 +46,6 @@ const TableConductor = ({data,ftn_eliminar,ftn_actualizar}) => {
                     limit_data.push({name: '...', value: i })
                 }
             }
-            console.log()
             setPagination({perPage: perPage,index: indexInit, data: filtered, total_camiones: data.length, page: index, limit: limit, component_item: limit_data});
         }
         initTable(1)
@@ -57,7 +55,7 @@ const TableConductor = ({data,ftn_eliminar,ftn_actualizar}) => {
         <>
         <table className="table table-striped table-sm table-bordered mb-0">
             <thead>
-                <tr style={{background: '#6EBE5E'}} >
+                <tr style={{background: '#2E86C1'}} >
                     <th style={{color: '#FFF'}}>Documento</th>
                     <th style={{color: '#FFF'}}>Nombre Completo</th>
                     <th className="text-center" style={{color: '#FFF'}}>Fecha_Registro</th>
