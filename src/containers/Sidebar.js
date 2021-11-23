@@ -6,8 +6,9 @@ import { useSelector } from 'react-redux';
 
 const Itemlist = [
   { name:"Control de viajes", icon:"fas fa-bus", 
-    links: [  
-      {link:"/rutas",name:"Crear viajes"},
+    links: [
+      {link:"/rutas",name:"Crear rutas"},  
+      {link:"/viajes",name:"Crear viajes"},
       {link:"/control-rutas",name:"Control rutas"},
       ]
   },
@@ -21,7 +22,7 @@ const Itemlist = [
 
 const Item = [
   {name:"Alineación", icon:"fas fa-map", link:"/transporte"},
-  {name:"Lista de viajes App", icon:"fas fa-road", link:"/lista-viajes"},
+  {name:"Lista de viajes App", icon:"fas fa-road", link:"/viajes_lista"},
 ]
 
 const Sidebar = () =>{

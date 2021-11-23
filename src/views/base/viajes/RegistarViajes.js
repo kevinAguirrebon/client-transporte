@@ -6,7 +6,7 @@ import Select from 'react-select'
 import axios from '../../../axios/axios';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
-import { getRutas } from '../../../redux/reducerRutas/reducerRutas';
+import { getViajes } from '../../../redux/reducerViajes/reducerViajes';
 
 const RegistarRuta = ({form,dataUpdate,setSearch}) => {
 
@@ -20,7 +20,7 @@ const RegistarRuta = ({form,dataUpdate,setSearch}) => {
     const onSubmit = async(data) => {
         if(fincasRutas.length > 0) {
             if(!form){
-                const request = await axios.post('api/rutas',{
+                const request = await axios.post('api/viajes',{
                     data: {camion: data.camion, conductor: data.conductor, fecha: data.fecha, finca: fincasRutas}
                 });
                 const response = await request.data;
@@ -32,9 +32,9 @@ const RegistarRuta = ({form,dataUpdate,setSearch}) => {
                     })
                     reset({camion: "", conductor: "", fecha: "",});
                     setFincasRutas([]);
-                    dispatch(getRutas());
+                    dispatch(getViajes());
                     setSearch('');
-                    document.getElementById('modal_rutas_close').click();
+                    document.getElementById('modal_viajes_close').click();
                 }else{
                     Swal.fire({
                         title: response.message,
@@ -43,7 +43,7 @@ const RegistarRuta = ({form,dataUpdate,setSearch}) => {
                     })
                 }
             }else{
-                const request = await axios.put('api/rutas',{
+                const request = await axios.put('api/viajes',{
                     data: {id: data.id, camion: data.camion, conductor: data.conductor, fecha: data.fecha, finca: fincasRutas}
                 });
                 const response = await request.data;
@@ -55,9 +55,9 @@ const RegistarRuta = ({form,dataUpdate,setSearch}) => {
                     })
                     reset({camion: "", conductor: "", fecha: "",});
                     setFincasRutas([]);
-                    dispatch(getRutas());
+                    dispatch(getViajes());
                     setSearch('');
-                    document.getElementById('modal_rutas_close').click();
+                    document.getElementById('modal_viajes_close').click();
                 }else{
                     Swal.fire({
                         title: response.message,
@@ -100,7 +100,7 @@ const RegistarRuta = ({form,dataUpdate,setSearch}) => {
                 fecha: dataUpdate.fecha,
                 id: dataUpdate.id
             }
-            const det_ruta = dataUpdate.rutas_det.map((element) => (
+            const det_ruta = dataUpdate.viajes_det.map((element) => (
                 {
                     label: element.descripcion,
                     value: element.finca_id

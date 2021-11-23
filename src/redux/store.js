@@ -5,13 +5,13 @@ import thunk  from 'redux-thunk';
 import camionesReducer from './reducerCamiones/camiones';
 import loginReducer from './reducerLogin/login'
 import conductoresReducer from './reducerConductores/conductores'
-import rutasReducer from './reducerRutas/reducerRutas'
+import viajesReducer from './reducerViajes/reducerViajes'
 
 const rootReducer = combineReducers({
     conductores: conductoresReducer,
     camiones: camionesReducer,
     login: loginReducer,
-    rutas: rutasReducer
+    viajes: viajesReducer
 })
 
 const devTool = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();

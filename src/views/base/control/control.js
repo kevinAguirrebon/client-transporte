@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { getRutasFecha,getAlineacion } from '../../../redux/reducerRutas/reducerRutas';
+import { getViajesFecha,getAlineacion } from '../../../redux/reducerViajes/reducerViajes';
 import { getCamiones } from '../../../redux/reducerCamiones/camiones';
 import { useSelector, useDispatch } from 'react-redux';
 import getFecha from '../../../helpers/fecha'
 
 const Control = () => {
     const dispatch = useDispatch();
-    const dataRutasFecha = useSelector(store => store.rutas.data_fecha);
-    const alineacion = useSelector(store => store.rutas.alineacion);
+    const dataViajesFecha = useSelector(store => store.viajes.data_fecha);
+    const alineacion = useSelector(store => store.viajes.alineacion);
     const dataCamiones = useSelector(store => store.camiones.data);
     const [fecha, setFecha] = useState(null);
     const [filterd,setFilterd] = useState([]);
 
     const changeFecha = (data) => {
         setFecha(data);
-        dispatch(getRutasFecha(data));
+        dispatch(getViajesFecha(data));
         dispatch(getAlineacion(data));
         dispatch(getCamiones());
     }
 
     const filterData = (id) => {
         if(!id){
-            setFilterd(dataRutasFecha);
+            setFilterd(dataViajesFecha);
         }else{
-            const data = dataRutasFecha.filter(ruta => {
-                if(ruta.id === id){
+            const data = dataViajesFecha.filter(viaje => {
+                if(viaje.id === id){
                     return true;
                 }else{
                     return false;
@@ -36,13 +36,13 @@ const Control = () => {
     }
     
     useEffect(() => {
-        if(dataRutasFecha.length > 0){
+        if(dataViajesFecha.length > 0){
             const id = document.getElementById('placa_id_control').value;
             if(!id){
-                setFilterd(dataRutasFecha);
+                setFilterd(dataViajesFecha);
             }else{
-                const data = dataRutasFecha.filter(ruta => {
-                    if(ruta.id === id){
+                const data = dataViajesFecha.filter(viaje => {
+                    if(viaje.id === id){
                         return true;
                     }else{
                         return false;
@@ -53,17 +53,17 @@ const Control = () => {
         }else{
             setFilterd([]);
         }
-    },[dataRutasFecha]);
+    },[dataViajesFecha]);
 
     useEffect(() => {
         const fecha = document.getElementById('fecha_id_control').value;
-        dispatch(getRutasFecha(fecha));
+        dispatch(getViajesFecha(fecha));
     },[dispatch]);
 
     return (
         <>
          <div className="jumbotron px-0  py-1 mb-0 d-block"  style={{color: '#000'}}>
-                <h5 className="text-center mb-0">Control de rutas <p className="mb-1" style={{fontSize: '15px', color: '#000'}}> { getFecha(fecha) }</p> </h5>
+                <h5 className="text-center mb-0">Control de viajes <p className="mb-1" style={{fontSize: '15px', color: '#000'}}> { getFecha(fecha) }</p> </h5>
         </div>
         <div className="my-2 d-flex">
             <div className="form-group d-flex my-0">
@@ -74,11 +74,11 @@ const Control = () => {
             <label style={{padding: '4px'}}>Ruta: </label>
                 <select name="placas" id='placa_id_control' className="form-control mx-3" style={{width: '200px'}}  onChange={(event) => filterData(event.target.value)}>
                     {
-                        dataRutasFecha.length > 0 && <option value='' >Todos los viajes</option>
+                        dataViajesFecha.length > 0 && <option value='' >Todos los viajes</option>
                     }  
                     {
-                        dataRutasFecha.length > 0 ? dataRutasFecha.map(ruta => {
-                            return <option key={ruta.id} value={ruta.id}>{ruta.id}</option>
+                        dataViajesFecha.length > 0 ? dataViajesFecha.map(viaje => {
+                            return <option key={viaje.id} value={viaje.id}>{viaje.id}</option>
                         }) : <option value='null' >No existe información</option>
                     }
                 </select>
@@ -101,24 +101,24 @@ const Control = () => {
             </thead>
             <tbody>
             {
-                        filterd.length > 0 ? filterd.map((ruta) => {
+                        filterd.length > 0 ? filterd.map((viaje) => {
                             let total_alineacion = 0;
                             let capacidad = 0;
-                            let pallets = dataCamiones.find(({placa}) => placa === ruta.camion);
+                            let pallets = dataCamiones.find(({placa}) => placa === viaje.camion);
                             if(pallets){
                                 capacidad = pallets.capacidad;
                             }                             return (
-                                <tr key={ruta.id}>
-                                    <td className="text-center">{ruta.id}</td>
-                                    <td >{ruta.fecha}</td>
-                                    <td >{ruta.camion}</td>
-                                    <td>{ruta.conductor}</td>
-                                    <td>{ruta.nombre}</td>
+                                <tr key={viaje.id}>
+                                    <td className="text-center">{viaje.id}</td>
+                                    <td >{viaje.fecha}</td>
+                                    <td >{viaje.camion}</td>
+                                    <td>{viaje.conductor}</td>
+                                    <td>{viaje.nombre}</td>
                                     <td className="td_alineacion" colSpan="2">
                                         <table className="table table-sm">
                                             <tbody style={{background: '#F4F6F9'}}>
                                                 {
-                                                    ruta.rutas_det.length > 0 && ruta.rutas_det.map(element => {
+                                                    viaje.viajes_det.length > 0 && viaje.viajes_det.map(element => {
                                                         const data = alineacion.find(({codigo_finca}) => codigo_finca === element.finca_id);
                                                         if(data){
                                                             total_alineacion += parseFloat(data.restantes);
@@ -148,7 +148,7 @@ const Control = () => {
                                     </th>
                                 </tr>
                         )}): <tr>
-                                <td colSpan="9" className="text-center"><h3>No hay rutas registradas</h3></td>
+                                <td colSpan="9" className="text-center"><h3>No hay viajes registradas</h3></td>
                             </tr>
                     }
             </tbody>

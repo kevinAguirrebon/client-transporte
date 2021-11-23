@@ -9,18 +9,18 @@ const stateInitial = {
     alineacion: [],
 }
 
-const GET_RUTAS = 'GET_RUTAS';
-const ERROR_GET_RUTA = 'ERROR_GET_RUTA';
-const GET_RUTAS_FECHA = 'GET_RUTAS_FECHA';
+const GET_VIAJES = 'GET_VIAJES';
+const ERROR_GET_VIAJE = 'ERROR_GET_VIAJE';
+const GET_VIAJES_FECHA = 'GET_VIAJES_FECHA';
 const GET_ALINEACION_FECHA = 'GET_ALINEACION_FECHA';
 
-export default function rutasReducer(state = stateInitial,action){
+export default function viajesReducer(state = stateInitial,action){
     switch (action.type) {
-        case GET_RUTAS:
+        case GET_VIAJES:
             return {...state, status: action.status, message: action.message, data: action.data, peticiones: action.peticiones};
-        case ERROR_GET_RUTA:
+        case ERROR_GET_VIAJE:
             return {...state, status: action.status, message: action.message}
-        case GET_RUTAS_FECHA:
+        case GET_VIAJES_FECHA:
             return {...state, status: action.status, message: action.message, data_fecha: action.data, peticiones: action.peticiones};
         case GET_ALINEACION_FECHA:
             return {...state, status: action.status, message: action.message, alineacion: action.data, peticiones: action.peticiones};
@@ -31,15 +31,15 @@ export default function rutasReducer(state = stateInitial,action){
 }
 
 
-export const getRutas = () => async (dispatch,getState) => {
+export const getViajes = () => async (dispatch,getState) => {
     const state = getState();
-    const peticion = state.rutas.peticiones + 1;
+    const peticion = state.viajes.peticiones + 1;
     try {
-        const request = await axios.get('api/rutas');
+        const request = await axios.get('api/viajes');
         const response = await request.data;
         if(response.status === true){
             dispatch({
-                type: 'GET_RUTAS',
+                type: 'GET_VIAJES',
                 status: response.status,
                 message: response.message,
                 data: response.data,
@@ -47,7 +47,7 @@ export const getRutas = () => async (dispatch,getState) => {
             })
         }else{
             dispatch({
-                type: 'ERROR_GET_RUTA',
+                type: 'ERROR_GET_VIAJE',
                 status: response.status,
                 message: response.message,
             })
@@ -59,7 +59,7 @@ export const getRutas = () => async (dispatch,getState) => {
 
 export const getAlineacion = (fecha) => async (dispatch,getState) => {
     const state = getState();
-    const peticion = state.rutas.peticiones + 1;
+    const peticion = state.viajes.peticiones + 1;
     try {
         const request = await axios.get('api/alineacion',{
             params: {id: fecha}
@@ -85,17 +85,17 @@ export const getAlineacion = (fecha) => async (dispatch,getState) => {
     }
 }
 
-export const getRutasFecha = (fecha) => async (dispatch,getState) => {
+export const getViajesFecha = (fecha) => async (dispatch,getState) => {
     const state = getState();
-    const peticion = state.rutas.peticiones + 1;
+    const peticion = state.viajes.peticiones + 1;
     try {
-        const request = await axios.get('api/rutas',{
+        const request = await axios.get('api/viajes',{
             params: {id: fecha}
         });
         const response = await request.data;
         if(response.status === true){
             dispatch({
-                type: 'GET_RUTAS_FECHA',
+                type: 'GET_VIAJES_FECHA',
                 status: response.status,
                 message: response.message,
                 data: response.data,
@@ -103,7 +103,7 @@ export const getRutasFecha = (fecha) => async (dispatch,getState) => {
             })
         }else{
             dispatch({
-                type: 'ERROR_GET_RUTA_FECHA',
+                type: 'ERROR_GET_VIAJE_FECHA',
                 status: response.status,
                 message: response.message,
             })

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const TableRutas = ({data,deleteRuta,editRuta,createRuta,setSearchInput,search}) => {
+const TableViajes = ({data,deleteViaje,editViaje,createViaje,setSearchInput,search}) => {
 
     const [pagination, setPagination] = useState({
         perPage: 10,
@@ -59,7 +59,7 @@ const TableRutas = ({data,deleteRuta,editRuta,createRuta,setSearchInput,search})
         <table className="table table-sm table-bordered">
                 <thead>
                     <tr style={{background: '#E9ECEF',border: '1px solid #000'}}>
-                        <th colSpan="2"> <button className="btn btn-secondary mx-2" data-toggle="modal" data-target="#modal-default" onClick={() => { createRuta() }}>Crear viaje</button></th>
+                        <th colSpan="2"> <button className="btn btn-secondary mx-2" data-toggle="modal" data-target="#modal-default" onClick={() => { createViaje() }}>Crear viaje</button></th>
                         <th colSpan="3"><input type="text" className="form-control" value={search} onPaste={setSearchInput} onChange={setSearchInput} placeholder="Buscar..."></input></th>
                         <th className="text-center">Fincas por visitar</th>
                         <th className="text-center" style={{verticalAlign: 'middle'}} rowSpan="2">Acciones</th>
@@ -75,18 +75,18 @@ const TableRutas = ({data,deleteRuta,editRuta,createRuta,setSearchInput,search})
                 </thead>
                 <tbody>
                     {
-                         pagination.data.length > 0 ? pagination.data.map((ruta,index) => (
-                        <tr key={ruta.id}>
-                            <td>{ruta.id}</td>
-                            <td>{ruta.fecha}</td>
-                            <td>{ruta.camion}</td>
-                            <td>{ruta.conductor}</td>
-                            <td>{ruta.nombre}</td>
+                         pagination.data.length > 0 ? pagination.data.map((viaje,index) => (
+                        <tr key={viaje.id}>
+                            <td>{viaje.id}</td>
+                            <td>{viaje.fecha}</td>
+                            <td>{viaje.camion}</td>
+                            <td>{viaje.conductor}</td>
+                            <td>{viaje.nombre}</td>
                             <td className="td_alineacion">
                                 <table className="table table-sm">
                                     <tbody style={{background: '#F4F6F9'}}>
                                         {
-                                            ruta.rutas_det.length > 0 && ruta.rutas_det.map(element => {
+                                            viaje.viajes_det.length > 0 && viaje.viajes_det.map(element => {
                                                 return (
                                                         <tr key={element.id}>
                                                             <td style={{width: '150px'}}>{element.descripcion}</td>
@@ -101,12 +101,12 @@ const TableRutas = ({data,deleteRuta,editRuta,createRuta,setSearchInput,search})
                                 </table>
                             </td>
                             <td>
-                                <button className="btn btn-info btn-sm mx-2" data-toggle="modal" data-target="#modal-default" onClick={() => { editRuta(ruta.id) }}>Editar</button>
-                                <button className="btn btn-danger btn-sm" onClick={()=>{ deleteRuta(ruta.id)}}>Eliminar</button>
+                                <button className="btn btn-info btn-sm mx-2" data-toggle="modal" data-target="#modal-default" onClick={() => { editViaje(viaje.id) }}>Editar</button>
+                                <button className="btn btn-danger btn-sm" onClick={()=>{ deleteViaje(viaje.id)}}>Eliminar</button>
                             </td>
                         </tr>
                         )): <tr>
-                                <td colSpan="9" className="text-center"><h3>No hay rutas registradas</h3></td>
+                                <td colSpan="9" className="text-center"><h3>No hay viajes registradas</h3></td>
                             </tr>
 
                     }
@@ -131,4 +131,4 @@ const TableRutas = ({data,deleteRuta,editRuta,createRuta,setSearchInput,search})
             </>
     )
 }
-export default TableRutas;
+export default TableViajes;
