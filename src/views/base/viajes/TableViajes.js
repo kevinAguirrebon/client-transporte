@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const TableViajes = ({data,deleteViaje,editViaje,createViaje,setSearchInput,search}) => {
+const TableViajes = ({data,deleteViaje,editViaje}) => {
 
     const [pagination, setPagination] = useState({
         perPage: 10,
@@ -58,48 +58,26 @@ const TableViajes = ({data,deleteViaje,editViaje,createViaje,setSearchInput,sear
         <>
         <table className="table table-sm table-bordered">
                 <thead>
-                    <tr style={{background: '#E9ECEF',border: '1px solid #000'}}>
-                        <th colSpan="2"> <button className="btn btn-secondary mx-2" data-toggle="modal" data-target="#modal-default" onClick={() => { createViaje() }}>Crear viaje</button></th>
-                        <th colSpan="3"><input type="text" className="form-control" value={search} onPaste={setSearchInput} onChange={setSearchInput} placeholder="Buscar..."></input></th>
-                        <th className="text-center">Fincas por visitar</th>
-                        <th className="text-center" style={{verticalAlign: 'middle'}} rowSpan="2">Acciones</th>
-                    </tr>
                     <tr style={{background: '#239B56'}}>
-                        <th style={{color: '#FFF',verticalAlign: 'middle'}}>Id</th>
-                        <th style={{color: '#FFF', verticalAlign: 'middle'}}>Fecha</th>
-                        <th style={{color: '#FFF',verticalAlign: 'middle'}} >Camión</th>
-                        <th style={{color: '#FFF',verticalAlign: 'middle'}} >Documento</th>
-                        <th style={{color: '#FFF',verticalAlign: 'middle'}} >Conductor</th>
-                        <th style={{color: '#FFF'}}>Fincas</th>
+                        <th style={{color: '#FFF'}}>Id</th>
+                        <th style={{color: '#FFF'}}>Fecha</th>
+                        <th style={{color: '#FFF'}} >Camión</th>
+                        <th style={{color: '#FFF'}} >Documento</th>
+                        <th style={{color: '#FFF'}} >Conductor</th>
+                        <th style={{color: '#FFF'}}>Ruta</th>
+                        <th style={{color: '#FFF'}}>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                         pagination.data.length > 0 ? pagination.data.map((viaje,index) => (
+                         pagination.data.length > 0 ? pagination.data.map((viaje) => (
                         <tr key={viaje.id}>
                             <td>{viaje.id}</td>
                             <td>{viaje.fecha}</td>
-                            <td>{viaje.camion}</td>
-                            <td>{viaje.conductor}</td>
+                            <td>{viaje.placa_id}</td>
+                            <td>{viaje.conductor_id}</td>
                             <td>{viaje.nombre}</td>
-                            <td className="td_alineacion">
-                                <table className="table table-sm">
-                                    <tbody style={{background: '#F4F6F9'}}>
-                                        {
-                                            viaje.viajes_det.length > 0 && viaje.viajes_det.map(element => {
-                                                return (
-                                                        <tr key={element.id}>
-                                                            <td style={{width: '150px'}}>{element.descripcion}</td>
-                                                        </tr>
-                                                    )
-                                                }
-                                                
-                                            )
-                                        }
-                                        
-                                    </tbody>
-                                </table>
-                            </td>
+                            <td>{viaje.ruta_id}</td>
                             <td>
                                 <button className="btn btn-info btn-sm mx-2" data-toggle="modal" data-target="#modal-default" onClick={() => { editViaje(viaje.id) }}>Editar</button>
                                 <button className="btn btn-danger btn-sm" onClick={()=>{ deleteViaje(viaje.id)}}>Eliminar</button>

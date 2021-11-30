@@ -1,61 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import axios from '../../../axios/axios';
-import Swal from 'sweetalert2';
-import getFecha from '../../../helpers/fecha'
+import { getPomas } from '../../../redux/reducerViajes/reducerViajes';
+import getFecha from '../../../helpers/fecha';
+import { useSelector, useDispatch } from 'react-redux';
+import fecha_format from '../../../helpers/format_fecha'
 
 const Viajes = () => {
-    const [data, setData] = useState([]);
+    const dispatch = useDispatch();
     const [horas, setHoras] = useState([]);
     const [placa, setPlaca] = useState([]);
     const [newData, setNewData] = useState([]);
-    const [fecha,setFecha] = useState();
+    const [fecha,setFecha] = useState('');
     const [loading,setLoading] = useState()
+    const data = useSelector(store => store.viajes.pomas)
 
-    const getData = async (fecha) => {
-        get_poma(fecha);
-    }
+    useEffect(() => { 
+        const fecha = fecha_format()
+        setFecha(fecha);
+        dispatch(getPomas(fecha));
+    },[dispatch])
 
     const reload_Viajes = async () => {
         get_poma(fecha);
     }
 
     const get_poma = async (fecha) => {
-        try {
-            setLoading(true);
-            if(fecha){
-                const request = await axios.get('api/pomas',{
-                    params: {id: fecha}
-                });
-                const response = await request.data;
-                if(response.status === true){
-                    if(response.data.length > 0){
-                        setData([]);
-                        setData(response.data);
-                        setFecha(fecha)
-                    }else{
-                        setFecha('');
-                        setPlaca([]);
-                        setHoras([]);
-                    }
-                }else{
-                    Swal.fire({
-                        title: response.message,
-                        icon: 'warning',
-                        confirmButtonText: 'ok'
-                    })
-                }
-            }else{
-                Swal.fire({
-                    title: 'Seleccione una fecha',
-                    icon: 'warning',
-                    confirmButtonText: 'ok'
-                })
-            }
-            setLoading(false);
-        }catch(error){
-            console.log(error);
-        }
+        setLoading(true);
+            setFecha(fecha);
+            dispatch(getPomas(fecha));
+        setLoading(false);
     }
+
     useEffect(()=>{
         if(data.length > 0){
             const placa = data.map(({placa}) => {
@@ -66,6 +40,9 @@ const Viajes = () => {
                 return hora;
             })
             setHoras((Array.from(new Set(horas))).sort());
+        }else{
+            setPlaca([]);
+            setHoras([]);
         }
     },[data])
 
@@ -150,7 +127,7 @@ const Viajes = () => {
         <div className="my-2 d-flex">
             <div className="form-group d-flex my-0">
                 <label style={{padding: '4px'}}>Fecha: </label>
-                <input type="date" name="fecha_pomas" id="fecha_id_viaje" className="form-control" onChange={({target}) => { getData(target.value);
+                <input type="date" name="fecha_pomas" id="fecha_id_viaje" value={fecha} className="form-control" onChange={({target}) => { get_poma(target.value);
                     }}></input>
             </div>
             <div className="form-group d-flex my-0">
@@ -186,8 +163,8 @@ const Viajes = () => {
                 </thead>
                 <tbody>
                     { (newData.length > 0) ? newData.map((item,index) => (
-                        <tr>
-                            <td>{index + 1}</td>
+                        <tr key={index}>
+                        <td>{index + 1}</td>
                          <td><h6><p style={{color: '#EE6D6D' }}>{ item.hora }</p> </h6></td>
                         <td className="text-center">{ item.finca }</td>
                         <td>{ item.conductor }</td>

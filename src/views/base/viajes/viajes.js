@@ -91,17 +91,29 @@ const Rutas = () => {
     }
 
     return (
-        <div>
-            <Modal id="modal-default" close="modal_viajes_close" titulo={form ? 'Actualizar viaje':'Registrar viaje'} body={<RegistarViajes form={form} dataUpdate={dataUpdate} setSearch={setSearch}/>}/>
-            <div className="jumbotron px-0  py-1 mb-0 d-block"  style={{color: '#000'}}>
-                <h5 className="text-center mb-0">Todos los viajes</h5>
+        <>
+            <h4  className="mb-3">Todos los viajes</h4>
+            <div className="input-group jumbotron px-0  py-0 mb-0 pt-2">
+                <div className="col-sm-6">
+                <Suspense fallback={loading}>
+                    <button className="btn btn-secondary" data-toggle="modal" data-target="#modal-default" onClick={() => { createViaje() }}>
+                        <i className="fas fa-plus"></i> Crear camión
+                    </button>
+                </Suspense>
+                </div>
+                <input type="text" className="form-control col-sm-6" value={search} onPaste={setSearchInput} onChange={setSearchInput} placeholder="Buscar..."></input>
+                <div className="input-group-append">
+                    <button className="btn nav-link disabled"><i className="fa fa-search"/></button>
+                </div>
             </div>
             <div className="table-responsive">
-            <Suspense fallback={loading}>
-                <TableViajes data={search.length > 0 ? viajes : dataViajes} deleteViaje={deleteViaje} editViaje={editViaje} createViaje={createViaje} setSearchInput={setSearchInput} search={search}></TableViajes>
-            </Suspense>
+                <Suspense fallback={loading}>
+                    <TableViajes data={search.length > 0 ? viajes : dataViajes} deleteViaje={deleteViaje} editViaje={editViaje} createViaje={createViaje} setSearchInput={setSearchInput} search={search}></TableViajes>
+                </Suspense>
             </div>
-        </div>
+            <Modal id="modal-default" close="modal_viajes_close" titulo={form ? 'Actualizar viaje':'Registrar viaje'} body={<RegistarViajes form={form} dataUpdate={dataUpdate} setSearch={setSearch}/>}/>
+        </>  
+        
     );
 
 }

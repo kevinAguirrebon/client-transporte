@@ -9,7 +9,6 @@ const Itemlist = [
     links: [
       {link:"/rutas",name:"Crear rutas"},  
       {link:"/viajes",name:"Crear viajes"},
-      {link:"/control-rutas",name:"Control rutas"},
       ]
   },
   { name:"Gestión", icon:"fas fa-users-cog", 
@@ -21,7 +20,8 @@ const Itemlist = [
 ]
 
 const Item = [
-  {name:"Alineación", icon:"fas fa-map", link:"/transporte"},
+  {name:"Alineación", icon:"fas fa-border-all", link:"/transporte"},
+  {link:"/control-viajes",name:"Control viajes", icon: "fas fa-route"},
   {name:"Lista de viajes App", icon:"fas fa-road", link:"/viajes_lista"},
 ]
 

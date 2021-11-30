@@ -2,6 +2,7 @@ import React from 'react';
 import formato_fecha from '../../../helpers/fecha'
 
 const TablaTransporte = ({data,fecha,handleChange}) => {
+    
     return (
         <table className="table table-sm table-bordered">
             <thead>
@@ -25,7 +26,7 @@ const TablaTransporte = ({data,fecha,handleChange}) => {
             </thead>
             <tbody>
                 {
-                    (data.length > 0) ? data.map(({codigo_finca,finca,avance,recogidas,restantes,alineacion})=>{
+                    data.length > 0 ? data.map(({codigo_finca,finca,avance,recogidas,restantes,alineacion})=>{
                     return (
                         <tr key={codigo_finca}>
                         <td className="text-center">{codigo_finca}</td>

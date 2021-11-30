@@ -1,44 +1,26 @@
-import React,{ useState} from 'react';
-import axios from '../../../axios/axios';
-import Swal from 'sweetalert2';
+import React,{ useState, useEffect} from 'react';
 import TablaTransporte from './tablaTransporte';
+import fecha_format from '../../../helpers/format_fecha'
+import { getAlineacion } from '../../../redux/reducerViajes/reducerViajes';
+import { useDispatch,useSelector } from 'react-redux';
 
 const Transporte = () => {
-    const [pomas,setPomas] = useState([]);
+    const dispatch = useDispatch();
     const [date,setDate] = useState("");
     const [loading,setLoading] = useState(false);
+    const data = useSelector(store => store.viajes.alineacion);
+
+    useEffect(()=>{
+        const fecha = fecha_format();
+        setDate(fecha); 
+       dispatch(getAlineacion(fecha));
+    },[dispatch])
 
     const getTransportePoma = async (fecha) => {
         setDate(fecha);
-        if(fecha){
-            try {
-                setLoading(true);
-                if(fecha){
-                    const request = await axios.get('api/alineacion',{
-                        params: {id: fecha}
-                    });
-                    const response = await request.data;
-                    if(response.status === true){
-                        setPomas(response.data);
-                    }else{
-                        Swal.fire({
-                            title: response.message,
-                            icon: 'warning',
-                            confirmButtonText: 'ok'
-                        })
-                    }
-                }
-            }catch(err){
-                    console.log(err)
-            }
-            setLoading(false); 
-        }else{
-            Swal.fire({
-                title: 'Seleccione una fecha',
-                icon: 'warning',
-                confirmButtonText: 'ok'
-            })
-        }
+        setLoading(true);
+        dispatch(getAlineacion(fecha))
+        setLoading(false);
     }
 
     return (
@@ -56,7 +38,7 @@ const Transporte = () => {
                 }
             </div>
         </div>
-        <TablaTransporte data={pomas} fecha={date} handleChange={getTransportePoma} loading={loading}/>
+            <TablaTransporte data={data} fecha={date} handleChange={getTransportePoma} loading={loading}/>
         </>
     )
 }

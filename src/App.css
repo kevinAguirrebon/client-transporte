@@ -81,3 +81,8 @@
     margin: 0px;
     background: #d9dcdf;
 }
+
+.activo_control{
+    background: rgba(106, 106, 106, 0.678);
+    color: rgb(255, 255, 255);
+}

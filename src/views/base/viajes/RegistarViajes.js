@@ -1,27 +1,26 @@
-import React, {useEffect,useState} from "react";
+import React, {useEffect} from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { getCamiones } from '../../../redux/reducerCamiones/camiones';
 import { getConductores } from '../../../redux/reducerConductores/conductores';
-import Select from 'react-select'
 import axios from '../../../axios/axios';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { getViajes } from '../../../redux/reducerViajes/reducerViajes';
+import { getRutas } from '../../../redux/reducerRutas/rutas';
 
 const RegistarRuta = ({form,dataUpdate,setSearch}) => {
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const dispatch = useDispatch();
-    const [finca,setFinca] = useState([]);
     const camiones = useSelector(state => state.camiones.data);
     const dataConductores = useSelector(store => store.conductores.data);
-    const [fincasRutas, setFincasRutas] = useState([]);
+    const rutas = useSelector(state => state.rutas.data_rutas);
     
     const onSubmit = async(data) => {
-        if(fincasRutas.length > 0) {
+        console.log(data);
             if(!form){
                 const request = await axios.post('api/viajes',{
-                    data: {camion: data.camion, conductor: data.conductor, fecha: data.fecha, finca: fincasRutas}
+                    data: {camion: data.camion, conductor: data.conductor, fecha: data.fecha, ruta: data.ruta}
                 });
                 const response = await request.data;
                 if(response.status === true){
@@ -31,7 +30,6 @@ const RegistarRuta = ({form,dataUpdate,setSearch}) => {
                         confirmButtonText: 'ok'
                     })
                     reset({camion: "", conductor: "", fecha: "",});
-                    setFincasRutas([]);
                     dispatch(getViajes());
                     setSearch('');
                     document.getElementById('modal_viajes_close').click();
@@ -44,7 +42,7 @@ const RegistarRuta = ({form,dataUpdate,setSearch}) => {
                 }
             }else{
                 const request = await axios.put('api/viajes',{
-                    data: {id: data.id, camion: data.camion, conductor: data.conductor, fecha: data.fecha, finca: fincasRutas}
+                    data: {id: data.id, camion: data.camion, conductor: data.conductor, fecha: data.fecha, ruta: data.ruta}
                 });
                 const response = await request.data;
                 if(response.status === true){
@@ -54,7 +52,6 @@ const RegistarRuta = ({form,dataUpdate,setSearch}) => {
                         confirmButtonText: 'ok'
                     })
                     reset({camion: "", conductor: "", fecha: "",});
-                    setFincasRutas([]);
                     dispatch(getViajes());
                     setSearch('');
                     document.getElementById('modal_viajes_close').click();
@@ -66,55 +63,32 @@ const RegistarRuta = ({form,dataUpdate,setSearch}) => {
                     })
                 }
             }
-        }
     }
 
-    const getFinca = (fincas) => {
-        setFincasRutas(fincas);
-    }
 
     useEffect(()=>{
         dispatch(getCamiones());
         dispatch(getConductores());
-        async function getFincas(){
-            const request = await axios.get('api/finca');
-            const response = await request.data;
-            if(response.status === true){
-                if(response.data.length > 0){
-                    const data = response.data.map(finca => ({
-                        value : finca.id,
-                        label : finca.descripcion
-                    }));
-                    setFinca(data);
-                }
-            }
-        }
-        getFincas();
+        dispatch(getRutas());
     },[dispatch]);
 
     useEffect(()=>{
         if(dataUpdate){
             const ruta = {
-                camion: dataUpdate.camion,
-                conductor: dataUpdate.conductor,
+                camion: dataUpdate.placa_id,
+                conductor: dataUpdate.conductor_id,
                 fecha: dataUpdate.fecha,
-                id: dataUpdate.id
+                id: dataUpdate.id,
+                ruta: dataUpdate.ruta_id
             }
-            const det_ruta = dataUpdate.viajes_det.map((element) => (
-                {
-                    label: element.descripcion,
-                    value: element.finca_id
-                }
-            ))
             reset(ruta);
-            setFincasRutas(det_ruta);
         }else{
             reset({
                 camion: '',
                 conductor: '',
                 fecha: '',
+                ruta: ''
             });
-            setFincasRutas([]);
         }
     },[dataUpdate,reset]);
 
@@ -149,14 +123,17 @@ const RegistarRuta = ({form,dataUpdate,setSearch}) => {
                     <span className="container text-danger">{errors?.conductor?.message}</span>
                 </div>
                 <div className="form-group row">
-                    <label htmlFor="inputEmail3" className="col-sm-3 col-form-label">Fincas</label>
+                    <label htmlFor="inputEmail3" className="col-sm-3 col-form-label">Rutas</label>
                     <div className="col-sm-9">
-                        <Select value={fincasRutas} options={finca} isMulti name="fincas" onChange={(ValueType) => { getFinca(ValueType) }}/>
-                    <span className="container text-danger">{fincasRutas.length > 0 ? '':'No hay fincas selecionadas'}</span>
+                        <select type="text" className="form-control" name="ruta" {...register('ruta', {required: { value: true, message: "El valor es requerido*"},})}>
+                            <option value="">Seleccione una ruta*</option>
+                            {rutas.length > 0 && rutas.map(ruta => ( <option key={ruta.id} value={ruta.id}>{ruta.id}</option> ))}
+                        </select>
                     </div>
+                    <span className="container text-danger">{errors?.ruta?.message}</span>
                 </div>
                 <div className="form-group">
-                <button className="btn btn-success">{form? 'Actualizar':'Guardar'}</button>
+                    <button className="btn btn-success">{form? 'Actualizar':'Guardar'}</button>
                 </div>
             </form> 
         </>
